@@ -1,0 +1,2 @@
+fab --hosts=user@x.y.z.w setup_benchmark
+fab --hosts=user@x.y.z.w run_benchmark
