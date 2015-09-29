@@ -9,7 +9,7 @@ from cassandra.cluster import Cluster
 from cassandra.policies import RoundRobinPolicy, TokenAwarePolicy
 from cassandra.query import BatchStatement, BatchType
 
-NUM_PROCESSES = 16
+NUM_PROCESSES = 8
 MAX_BATCH_SIZE = 20
 
 
