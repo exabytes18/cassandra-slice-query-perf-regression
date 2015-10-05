@@ -8,7 +8,6 @@ NUM_PARTITIONS="1024000"
 ROWS_PER_PARTITION="1000"
 
 # fetch settings
-NUM_FETCH_PROCESSES="16"
 NUM_FETCH_QUERIES="1000000"
 
 
@@ -38,10 +37,12 @@ run_benchmark() {
     ./"$CASSANDRA"/bin/nodetool cfstats ks 2>&1 > "$RESULT_DIR"/cfstats.out
 
     echo "Fetching data (warmup)"
-    ./data_fetch.py "$NUM_FETCH_PROCESSES" "$NUM_PARTITIONS" "$NUM_FETCH_QUERIES" 2>&1 | tee "$RESULT_DIR"/warmup.out
+    ./data_fetch.py "4" "$NUM_PARTITIONS" "$NUM_FETCH_QUERIES" 2>&1 | tee "$RESULT_DIR"/warmup.out
 
     echo "Fetching data (real measurement)"
-    ./data_fetch.py "$NUM_FETCH_PROCESSES" "$NUM_PARTITIONS" "$NUM_FETCH_QUERIES" 2>&1 | tee "$RESULT_DIR"/fetch.out
+    for NUM_THREADS in 1 4 16 32 64 ; do
+        ./data_fetch.py "$NUM_THREADS" "$NUM_PARTITIONS" "$NUM_FETCH_QUERIES" 2>&1 | tee "$RESULT_DIR"/fetch-"$NUM_THREADS".out
+    done
 
     echo "Finished benchmark (`date`)"
     kill "$CASSANDRA_PID"

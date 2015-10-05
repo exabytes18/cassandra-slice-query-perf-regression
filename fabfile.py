@@ -23,5 +23,3 @@ def setup_benchmark():
 def run_benchmark():
     sudo('./benchmark.sh apache-cassandra-2.0.17')
     sudo('./benchmark.sh apache-cassandra-2.1.9')
-    run('echo "apache-cassandra-2.0.17: `grep "qps" results/apache-cassandra-2.0.17/fetch.out` qps"')
-    run('echo "apache-cassandra-2.1.9: `grep "qps" results/apache-cassandra-2.1.9/fetch.out` qps"')
